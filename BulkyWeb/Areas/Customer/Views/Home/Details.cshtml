@@ -1,0 +1,432 @@
+﻿@using Azure.Core
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ShoppingCart
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
+
+<form method="post">
+    <input hidden asp-for="ProductId"/>
+    <div class=" shadow border-0 mt-4 mb-4">
+        <div class="card-header bg-secondary bg-gradient text-light py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="text-white text-uppercase">@Model.Product.Title</h3>
+                    <p class="text-white-50 fw-semibold mb-0">by @Model.Product.Author</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" >
+            <div class="py-3">
+                <div class="row">
+                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
+                        <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-3 fw-semibold btn-sm text-uppercase">
+                            <small>Back to home</small>
+                        </a>
+                        <a href="https://localhost:7117/?status=@Model.Product.Category.Name" class="btn btn-outline-primary bg-gradient mb-3 fw-semibold btn-sm text-uppercase">
+
+                            <small>Go to @Model.Product.Category.Name category</small>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
+                    
+                        
+                        @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
+                        {
+
+                       
+                        
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                
+                                    @foreach (var imageWithIndex
+                                        in Model.Product.ProductImages
+                                            .Select((image, index) 
+                                                => new { ProductImage = image, Index = index }))
+                                    {
+                                        <button type="button" data-bs-target="#carouselExampleIndicators"
+                                                data-bs-slide-to="@imageWithIndex.Index" class="@(imageWithIndex.Index == 0 ?"active":"")
+                                            aria-current="true" aria-label="Slide 1"></button>
+                                
+                                    }
+
+                                </div>
+                                <div class="carousel-inner">
+                                    @foreach (var imageWithIndex
+                                        in Model.Product.ProductImages
+                                            .Select((image, index)
+                                                => new { ProductImage = image, Index = index }))
+                                    {
+                                        
+                                    
+                                        <div class="@(imageWithIndex.Index==0?"carousel-item active":"carousel-item")">
+                                            <img src="@imageWithIndex.ProductImage.ImageUrl" class="d-block w-100" alt="...">
+                                        </div>
+                                    }
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+
+                        }
+                        
+                        
+
+                    </div>
+                    <div class="col-12 col-lg-6 offset-lg-1">
+
+                        <div class="col-12 col-md-6 pb-4">
+                            <span class="badge">@Model.Product.Category.Name</span>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.Product.ISBN</h6>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50  pb-2">
+                                List Price:
+                                <span class="text-decoration-line-through">
+                                    @Model.Product.ListPrice.ToString("c")
+                                </span>
+                            </h6>
+                        </div>
+                        <div class="row text-center ps-2">
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">1-50</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">51-100</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">100+</div>
+                            </div>
+                        </div>
+                        <div class="row text-center ps-2">
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>Price</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@Model.Product.Price.ToString("c")</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@Model.Product.Price50.ToString("c")</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@Model.Product.Price100.ToString("c")</div>
+                            </div>
+                        </div>
+                        <div class="row pl-2 my-3">
+                            <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
+                        </div>
+                        <div class="row pl-2 mb-3">
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-primary text-white border-0 fw-semibold"
+                                          id="inputGroup-sizing-default">
+                                        Count
+                                    </span>
+                                    <input asp-for="Count" type="number" type="number" min="1" value="1" class="form-control text-end"
+                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 pb-1">
+                                <button type="submit"
+                                        class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</form>
+@{
+    var userName = ViewBag.UserName as string;
+}
+@{
+    double? sum = 0;
+    int cnt = 0;
+    foreach (var rating in @Model.Product.Reviews)
+    {
+        if (rating.Rating != 0)
+        {
+            sum += rating.Rating;
+            cnt++;
+        }
+    }
+    double? averageRating = cnt > 0 ? sum / cnt : (double?)null;
+}
+<div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1">
+    <div class="title-box-d">
+        <h3 class="title-d">Comments @Model.Product.Reviews.Count()</h3>
+        <h3>Average rating: @averageRating?.ToString("0.0") </h3>
+    </div>
+    <div class="box-comments">
+        <ul class="list-comments">
+
+            @foreach (var review in Model.Product.Reviews)
+            {
+                <li>
+
+                    <div class="comment-details">
+                        <h4 class="comment-author">@review.ApplicationUser.Name</h4>
+                        @if (@review.Rating != 0)
+                        {
+                            <span>Commented on: @review.CommentedOn| Rating: @review.Rating/5</span>
+                        }
+                        else
+                        {
+                            <span>Commented on: @review.CommentedOn</span>
+                        }
+                        <p class="comment-description">
+                            @review.Comment
+                        </p>
+                    </div>
+                </li>
+            }
+
+
+        </ul>
+    </div>
+    <div class="form-comments">
+        <div class="title-box-d">
+            <h3 class="title-d"> Leave a Reply</h3>
+            
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-action="AddComment" method="post">
+                <input type="hidden" id="rating" name="rating" value="0" />
+                <div class="bodyOfStars">
+                    <div class="cardStar">
+                        
+                        <br/>
+                        <span onclick="gfg(1)"
+                              class="star">★
+                        </span>
+                        <span onclick="gfg(2)"
+                              class="star">★
+                        </span>
+                        <span onclick="gfg(3)"
+                              class="star">★
+                        </span>
+                        <span onclick="gfg(4)"
+                              class="star">★
+                        </span>
+                        <span onclick="gfg(5)"
+                              class="star">★
+                        </span>
+                       
+                    </div>
+                </div>
+
+
+
+                <label for="content"></label>
+                <label for="cart"></label>
+                <div class="row">
+                    <div class="col-12">
+                        <textarea placeholder="Comment *" cols="45" rows="8" required class="form-control text-left" id="content" name="content"></textarea>
+                    </div>
+                </div>
+
+                <input type="hidden" name="ProductId" value="@Model.ProductId"/>
+                <input type="submit" class="btn btn-a" value="Comment">
+            </form>
+            <br />
+
+            <br />
+
+            <br />
+        }
+        else
+        {
+            <p>Please <a href="/Identity/Account/Login">log in</a> to post a comment.</p>
+            <br />
+
+            <br />
+
+            <br />
+        }
+    </div>
+
+
+<script>
+        // To access the stars
+        let stars =
+            document.getElementsByClassName("star");
+        let output =
+            document.getElementById("output");
+
+        // Funtion to update rating
+        function gfg(n) {
+            remove();
+            for (let i = 0; i < n; i++) {
+                if (n == 1) cls = "one";
+                else if (n == 2) cls = "two";
+                else if (n == 3) cls = "three";
+                else if (n == 4) cls = "four";
+                else if (n == 5) cls = "five";
+                stars[i].className = "star " + cls;
+            }
+           // output.innerText = "Rating is: " + n + "/5";
+
+            // Update the hidden input field
+            document.getElementById("rating").value = n;
+        }
+
+        // To remove the pre-applied styling
+        function remove() {
+            let i = 0;
+            while (i < 5) {
+                stars[i].className = "star";
+                i++;
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+
+@* @if (Model.Product.Reviews != null && Model.Product.Reviews.Count > 0)
+{
+    foreach (var review in Model.Product.Reviews)
+    {
+        <p class="card-text">@review.Comment</p>
+    }
+}
+ *@
+
+@* 
+@if (User.Identity.IsAuthenticated)
+{ 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="page-header">
+                    <h1><small class="pull-right">{{comments.length}} comments</small> Comments </h1>
+                </div>
+                <div class="comments-list">
+                    <div class="media" v-for="com in comments">
+                        <div class="media-body">
+                            {{ com.Comment }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <br />
+        <p>Your Comment</p>
+        <form onsubmit="return false;">
+            <input type="text" id="Name" placeholder="Your Name" v-model="comment.Name" class="form-control" />
+            <textarea rows="3" placeholder="Your Comment" id="Body" v-model="comment.Body" class="form-control"></textarea>
+            <button class="btn btn-success" v-on:click="submit_comment">save</button>
+        </form>
+    </div>
+     
+}
+else
+{
+    <div class=" mt-4">
+        <div class="col-md-6 offset-md-3">
+            <h3 class="text-center mb-3">Log in to leave a Review!</h3>
+            
+        </div>
+    </div>
+}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                        
+<script>
+    var pusher = new Pusher('e22c8f2ce0f973671483', {
+        cluster: 'eu'
+    });
+    var my_channel = pusher.subscribe('asp_channel');
+    var app = new Vue({
+        el: '#app',
+        data: {
+            comments: [],
+            comment: {
+                Name: '',
+                Body: '',
+                BlogPostID: @Model.Product.Id
+            }
+        },
+        created: function() {
+            this.get_comments();
+            this.listen();
+        },
+        methods: {
+            get_comments: function() {
+                axios.get('@Url.Action("Comments", "Home", new { id = @Model.Product.Id })', { https: true })
+                    .then((response) => {
+    
+                        this.comments = response.data;
+    
+                    });
+    
+            },
+            listen: function() {
+                my_channel.bind("asp_event", (data) => {
+                    if (data.BlogPostID == this.comment.BlogPostID) {
+                        this.comments.push(data);
+                    }
+    
+                })
+            },
+            submit_comment: function() {
+                axios.post('@Url.Action("Comment", "Home")', this.comment, { https: true })
+                    .then((response) => {
+                        this.comment.Name = '';
+                        this.comment.Body = '';
+                        alert("Comment Submitted");
+    
+                    });
+            }
+        }
+    });
+    </script> *@
+
+@* <script>
+        $("#btnComment").click(function () {
+            //debugger
+            $.ajax({
+                type: 'post',
+            url: '@Url.Action("LeaveComment", "Reviews")',
+                data: $("#commentForm").serialize()
+            }).done(function (response) {
+                location.reload();
+            }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Ajax request failed:");
+            console.log("Status: " + textStatus);
+            console.log("Error: " + errorThrown);
+         //   console.log("Response Text: " + jqXHR.responseText);
+                alert("FAIL");
+            })
+        })
+
+</script> *@
