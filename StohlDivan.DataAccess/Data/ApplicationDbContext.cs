@@ -34,9 +34,9 @@ namespace StohlDivan.DataAccess.Data
             //    .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
-			    new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
-			    new Category { Id = 3, Name = "History", DisplayOrder = 3 });
+                new Category { Id = 1, Name = "Sofa", DisplayOrder = 1 },
+			    new Category { Id = 2, Name = "Chair", DisplayOrder = 2 },
+			    new Category { Id = 3, Name = "Bed", DisplayOrder = 3 });
             modelBuilder.Entity<Company>().HasData(
                 new Company
                 {
