@@ -40,17 +40,17 @@ namespace StohlDivan.DataAccess.Data
             modelBuilder.Entity<Company>().HasData(
                 new Company
                 {
-                    Id = 1, Name = "Tech Solution", StreetAddress = "123 Tech St", City = "Tech City",
+                    Id = 1, Name = "CoolStols", StreetAddress = "123 Tech St", City = "Tech City",
                     PostalCode = "12121", State = "MA", PhoneNumber = "666666666"
                 },
                 new Company
                 {
-                    Id = 2, Name = "Vivid Books", StreetAddress = "233 Viv St", City = "Viv City", PostalCode = "12221",
+                    Id = 2, Name = "CoolStols2", StreetAddress = "233 Viv St", City = "Viv City", PostalCode = "12221",
                     State = "MA", PhoneNumber = "663126666"
                 },
                 new Company
                 {
-                    Id = 3, Name = "Readers Club", StreetAddress = "555 Read St", City = "Pavlikeni City",
+                    Id = 3, Name = "CoolStols3", StreetAddress = "555 Read St", City = "Pavlikeni City",
                     PostalCode = "55555", State = "MA", PhoneNumber = "66663366666"
                 });
             modelBuilder.Entity<Product>().HasData(

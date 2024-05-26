@@ -1,21 +1,24 @@
 ﻿@model IEnumerable<Product>
 @{
     var status = Context.Request.Query["status"];
-    var Action = "text-primary";
-    var SciFi = "text-primary";
-    var History = "text-primary";
-    var Horror = "text-primary";
+    var Sofa = "text-primary";
+    var Chair = "text-primary";
+    var Bed = "text-primary";
+    var Barbaron = "text-primary";
     var all = "text-primary";
     switch (status)
     {
         case "Sofa":
-            Action = "active text-white bg-primary";
+            Sofa = "active text-white bg-primary";
             break;
         case "Chair":
-            SciFi = "active text-white bg-primary";
+            Chair = "active text-white bg-primary";
             break;
         case "Bed":
-            History = "active text-white bg-primary";
+            Bed = "active text-white bg-primary";
+            break;
+        case "Barbaron":
+            Barbaron = "active text-white bg-primary";
             break;
        
         
@@ -38,27 +41,27 @@
 
 
                 <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-status="Action">
-                    <li class="list-group-item @Action">
-                        Action
+                <li class="list-group-item @Sofa">
+                        Sofa
                     </li>
 
                 </a>
 
                 <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-status="SciFi">
-                    <li class="list-group-item @SciFi">
-                        SciFi
+                <li class="list-group-item @Chair">
+                        Chair
                     </li>
 
                 </a>
                 <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-status="History">
-                    <li class="list-group-item @History">
-                        History
+                <li class="list-group-item @Bed">
+                        Bed
                     </li>
 
                 </a>
                 <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-status="Horror">
-                    <li class="list-group-item @Horror">
-                        Horror
+                <li class="list-group-item @Barbaron">
+                        Barbaron
                     </li>
 
                 </a>
@@ -127,7 +130,7 @@
     @if (!Model.Any() || !Model.Any(product => status.Count == 0 || status[0] == "all" || product.Category?.Name == status[0]))
     {
         <div class="col-12 mb-5">
-            <h1 class="text-center mt-5">Sorry, there are no @status[0] books :(</h1>
+            <h1 class="text-center mt-5">Sorry, there are no @status[0] products :(</h1>
         </div>
     }
 </div>
