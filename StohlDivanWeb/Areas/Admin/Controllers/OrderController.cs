@@ -54,9 +54,9 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
             orderHeaderFromDb.State = OrderVm.OrderHeader.State;
             orderHeaderFromDb.PostalCode = OrderVm.OrderHeader.PostalCode;
 
-            if (!string.IsNullOrEmpty(OrderVm.OrderHeader.Carrier))
+            if (OrderVm.OrderHeader.Supplier == null)
             {
-                orderHeaderFromDb.Carrier = OrderVm.OrderHeader.Carrier;
+                orderHeaderFromDb.Supplier = OrderVm.OrderHeader.Supplier;
             }
             if (!string.IsNullOrEmpty(OrderVm.OrderHeader.TrackingNumber))
             {
@@ -86,7 +86,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
         {
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVm.OrderHeader.Id);
             orderHeader.TrackingNumber = OrderVm.OrderHeader.TrackingNumber;
-            orderHeader.Carrier = OrderVm.OrderHeader.Carrier;
+            orderHeader.Supplier = OrderVm.OrderHeader.Supplier;
             orderHeader.OrderStatus = SD.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
             if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)

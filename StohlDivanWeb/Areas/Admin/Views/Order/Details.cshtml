@@ -130,11 +130,11 @@
                                 <div class="col-9">
                                     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                                     {
-                                        <input asp-for="OrderHeader.Carrier" id="carrier" type="text" class="form-control" />
+                                        <input asp-for="OrderHeader.Supplier" id="carrier" type="text" class="form-control" />
                                     }
                                     else
                                     {
-                                        <input asp-for="OrderHeader.Carrier" readonly type="text" class="form-control" />
+                                        <input asp-for="OrderHeader.Supplier" readonly type="text" class="form-control" />
                                     }
                                 </div>
                             </div>

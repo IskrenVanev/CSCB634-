@@ -28,9 +28,10 @@ namespace StohlDivan.Models
         public string? OrderStatus { get; set; }
         public string? PaymentStatus { get; set; }
         public string? TrackingNumber { get; set; }
-        public string? Carrier { get; set; }
+        //   public string? Carrier { get; set; }  We will use new Supplier class for this
 
-
+        public int? SupplierId { get; set; } // Nullable SupplierId
+        public Supplier? Supplier { get; set; }
 
         public DateTime PaymentDate { get; set; }
         public DateOnly PaymentDueDate { get; set; }
