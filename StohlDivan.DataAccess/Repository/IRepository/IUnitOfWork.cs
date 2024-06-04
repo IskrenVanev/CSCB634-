@@ -17,6 +17,7 @@ namespace StohlDivan.DataAccess.Repository.IRepository
         IOrderHeaderRepository OrderHeader { get; }
         IProductImageRepository ProductImage { get; }
         IReviewRepository Review { get; }
+        ISupplierRepository Supplier { get; }
         void Save();
     }
 }
