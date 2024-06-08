@@ -126,15 +126,17 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Carrier</div>
+                                <div class="col-3">Supplier</div>
                                 <div class="col-9">
                                     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                                     {
-                                        <input asp-for="OrderHeader.Supplier" id="carrier" type="text" class="form-control" />
+                                        <select asp-for="OrderHeader.SupplierId" class="form-control" asp-items="Model.Suppliers">
+                                            <option value="">-- Select Supplier --</option>
+                                        </select>
                                     }
                                     else
                                     {
-                                        <input asp-for="OrderHeader.Supplier" readonly type="text" class="form-control" />
+                                        <input asp-for="OrderHeader.Supplier.SupplierName" readonly type="text" class="form-control" />
                                     }
                                 </div>
                             </div>
