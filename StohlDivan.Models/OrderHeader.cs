@@ -31,6 +31,7 @@ namespace StohlDivan.Models
         //   public string? Carrier { get; set; }  We will use new Supplier class for this
 
         public int? SupplierId { get; set; } // Nullable SupplierId
+        [ForeignKey("SupplierId")]
         public Supplier? Supplier { get; set; }
 
         public DateTime PaymentDate { get; set; }

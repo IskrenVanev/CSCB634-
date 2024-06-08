@@ -10,6 +10,7 @@ using StohlDivan.DataAccess.Repository.IRepository;
 using StohlDivan.Models.ViewModels;
 using StohlDivan.Models;
 using StohlDivan.Utility;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace StohlDivanWeb.Areas.Admin.Controllers
 {
@@ -33,9 +34,14 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
         {
             OrderVm = new()
             {
-                OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId, includeProperties: "ApplicationUser"),
+                OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId, includeProperties: "ApplicationUser,Supplier"),
                 OrderDetail =
-                    _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderId, includeProperties: "Product")
+                    _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderId, includeProperties: "Product"),
+                Suppliers = _unitOfWork.Supplier.GetAll(null).Select(s => new SelectListItem
+                {
+                    Text = s.SupplierName,
+                    Value = s.Id.ToString()
+                }).ToList()
 
             };
             return View("Details", OrderVm);
@@ -54,9 +60,9 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
             orderHeaderFromDb.State = OrderVm.OrderHeader.State;
             orderHeaderFromDb.PostalCode = OrderVm.OrderHeader.PostalCode;
 
-            if (OrderVm.OrderHeader.Supplier == null)
+            if (OrderVm.OrderHeader.SupplierId.HasValue)
             {
-                orderHeaderFromDb.Supplier = OrderVm.OrderHeader.Supplier;
+                orderHeaderFromDb.SupplierId = OrderVm.OrderHeader.SupplierId.Value;
             }
             if (!string.IsNullOrEmpty(OrderVm.OrderHeader.TrackingNumber))
             {
@@ -65,7 +71,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
             _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
             _unitOfWork.Save();
 
-            //TempData["Success"] = "Order Details Updated Successfully.";
+            TempData["Success"] = "Order Details Updated Successfully.";
             return RedirectToAction(nameof(Details), new { orderId = orderHeaderFromDb.Id });
 
         }
