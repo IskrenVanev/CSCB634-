@@ -8,7 +8,8 @@
         Layout = "/Views/Shared/_Layout.cshtml";
     }
 }
-
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 <h1>Manage your account</h1>
 
 <div>
@@ -23,7 +24,10 @@
         </div>
     </div>
 </div>
-
+@{
+    var userId = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.NameIdentifier) : "Guest";
+}
+<p>Current user ID: @userId</p>
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }

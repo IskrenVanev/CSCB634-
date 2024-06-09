@@ -1,13 +1,15 @@
 ﻿@using StohlDivan.Utility
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - StohlDivanWeb</title>
-    
+
+
     <link rel="stylesheet" href="~/css/stylesStar.css" asp-append-version="true" />
     
     
@@ -60,6 +62,9 @@
                                 <li class="nav-item">
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Suppliers" asp-action="Index">Supplier</a>
                                 </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="ChangeName" asp-action="Index">Change Website Name</a>
+                                    </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li class="nav-item">
                                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
@@ -78,7 +83,7 @@
                             @await Component.InvokeAsync("ShoppingCart")
                         </a>
                     </li>
-                        
+                        @* <h1>StohlDivanWeb</h1> *@
                         
                 </ul>
                 <partial name ="_LoginPartial"/>
@@ -99,7 +104,7 @@
 
     <footer class="border-top footer bg-primary text-muted">
         <div class="text-center">
-            Made with <i class="bi bi-heart-fill"></i> by Iskren
+            Made with <i class="bi bi-heart-fill"></i> by Iskren, Ivo and Mirela
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

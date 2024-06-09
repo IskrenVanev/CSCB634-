@@ -32,7 +32,7 @@ namespace StohlDivanWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-
+            ViewData["Title"] = "Home";
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
             return View(productList);
         }
