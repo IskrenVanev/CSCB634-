@@ -41,5 +41,22 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
             TempData["success"] = "Website name changed successfully";
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> ChangeAddress(string siteAddress)
+        {
+            var filePath = Path.Combine(_env.ContentRootPath, "appsettings.json");
+
+            var json = await System.IO.File.ReadAllTextAsync(filePath);
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            jsonObj["WebsiteSettings"]["SiteAddress"] = siteAddress;
+
+            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+            await System.IO.File.WriteAllTextAsync(filePath, output);
+
+            ViewBag.SiteAddress = siteAddress;
+            TempData["success"] = "Website address changed successfully";
+            return RedirectToAction("Index");
+        }
     }
+
 }
