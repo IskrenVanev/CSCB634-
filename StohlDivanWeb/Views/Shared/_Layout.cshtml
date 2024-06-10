@@ -1,13 +1,18 @@
 ﻿@using StohlDivan.Utility
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
+@{
+    var siteName = Configuration["WebsiteSettings:SiteName"];
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StohlDivanWeb</title>
+    <title>@ViewData["Title"] - @siteName</title>
 
 
     <link rel="stylesheet" href="~/css/stylesStar.css" asp-append-version="true" />
@@ -83,7 +88,8 @@
                             @await Component.InvokeAsync("ShoppingCart")
                         </a>
                     </li>
-                        @* <h1>StohlDivanWeb</h1> *@
+                        
+
                         
                 </ul>
                 <partial name ="_LoginPartial"/>

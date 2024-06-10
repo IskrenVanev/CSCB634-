@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Product>
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@model IEnumerable<Product>
 @{
     var status = Context.Request.Query["status"];
     var Sofa = "text-primary";
@@ -27,6 +30,14 @@
 @{
     ViewData["Title"] = "Home";
 }
+@{
+    var siteName = Configuration["WebsiteSettings:SiteName"];
+}
+<div class="container text-center">
+    <h1 class="display-4 mb-3 p-3 bg-primary text-white rounded shadow-lg">
+        Welcome to @siteName
+    </h1>
+</div>
 
 <div class="text-center">
     <img src="~/HomePagePhotos/ne-one-1.jpg" alt="Chairs and sofas image" class="img-fluid d-block mx-auto p-3" style="width: 50%; height: auto;" />
