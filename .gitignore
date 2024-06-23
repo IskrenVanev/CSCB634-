@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 
 
+/docker-compose.yml
+/StohlDivanWeb/Dockerfile
+/StohlDivanWeb/appsettings.json

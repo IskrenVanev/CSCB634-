@@ -54,6 +54,7 @@ namespace StohlDivan.Models
         [Required]
         public string Name { get; set; }
 
-
+        // Navigation property for OrderDetails
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -48,7 +48,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Moderator)]
         public IActionResult UpdateOrderDetail()
         {
             var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVm.OrderHeader.Id);
@@ -76,7 +76,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Moderator)]
         public IActionResult StartProcessing()
         {
             _unitOfWork.OrderHeader.UpdateStatus(OrderVm.OrderHeader.Id, SD.StatusInProcess);
@@ -87,7 +87,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Moderator)]
         public IActionResult ShipOrder()
         {
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVm.OrderHeader.Id);
@@ -109,7 +109,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Moderator)]
         public IActionResult CancelOrder()
         {
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVm.OrderHeader.Id);
@@ -214,7 +214,7 @@ namespace StohlDivanWeb.Areas.Admin.Controllers
             IEnumerable<OrderHeader> objOrderHeaders;
 
 
-            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Moderator))
             {
                 objOrderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
             }

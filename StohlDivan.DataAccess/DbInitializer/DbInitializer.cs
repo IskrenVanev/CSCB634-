@@ -41,14 +41,14 @@ namespace StohlDivan.DataAccess.DbInitializer
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
 
             //create roles if they are not created
             if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Moderator)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
 
@@ -70,8 +70,25 @@ namespace StohlDivan.DataAccess.DbInitializer
 
                 }, "Qqq123*").GetAwaiter().GetResult();
 
+                _userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "moderator@ivo.com",
+                    Email = "moderator@ivo.com",
+                    Name = "Ivo Han",
+                    PhoneNumber = "123123123",
+                    StreetAddress = "test 123 iskrr",
+                    State = "MA",
+                    PostalCode = "23123",
+                    City = "Boston"
+
+
+                }, "Qqq123*").GetAwaiter().GetResult();
+
                 ApplicationUser user = _db.applicationUsers.FirstOrDefault(u => u.Email == "admin@iskren.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+
+                ApplicationUser user1 = _db.applicationUsers.FirstOrDefault(u => u.Email == "moderator@ivo.com");
+                _userManager.AddToRoleAsync(user1, SD.Role_Moderator).GetAwaiter().GetResult();
             }
 
             return;
