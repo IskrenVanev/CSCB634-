@@ -118,6 +118,18 @@ namespace StohlDivanWeb.Areas.Identity.Pages.Account
             public string State { get; set; }
             public string PostalCode { get; set; }
             public string PhoneNumber { get; set; }
+            [Required]
+            [Display(Name = "Bank Name")]
+            public string BankName { get; set; }
+            [Required]
+            [Display(Name = "Account Number")]
+            public string AccountNumber { get; set; }
+            [Required]
+            [Display(Name = "IBAN")]
+            public string IBAN { get; set; }
+            [Required]
+            [Display(Name = "Swift Code")]
+            public string SwiftCode { get; set; }
             public int? CompanyId { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> CompanyList { get; set; }
@@ -171,6 +183,18 @@ namespace StohlDivanWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    var bankAccount = new BankAccount
+                    {
+                        UserId = user.Id,
+                        BankName = Input.BankName,
+                        AccountNumber = Input.AccountNumber,
+                        IBAN = Input.IBAN,
+                        SwiftCode = Input.SwiftCode
+                    };
+
+                    _unitOfWork.BankAccount.Add(bankAccount);
+                    _unitOfWork.Save();
 
                     if (!string.IsNullOrEmpty(Input.Role))
                     {

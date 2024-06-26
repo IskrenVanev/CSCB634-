@@ -21,6 +21,7 @@ namespace StohlDivan.DataAccess.Repository
         public IProductImageRepository ProductImage { get; private set; }
         public IReviewRepository Review { get; private set; }
         public ISupplierRepository Supplier { get; private set; }
+        public IBankAccountRepository BankAccount { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -34,7 +35,7 @@ namespace StohlDivan.DataAccess.Repository
             OrderHeader = new OrderHeaderRepository(_db);
             OrderDetail = new OrderDetailRepository(_db);
             Supplier = new SupplierRepository(_db);
-
+            BankAccount = new BankAccountRepository(_db);
         }
 
         public void Save()
