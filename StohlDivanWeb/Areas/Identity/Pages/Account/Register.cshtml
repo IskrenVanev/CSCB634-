@@ -89,6 +89,26 @@
                         
                         </div>
                     }
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.BankName" class="form-control" placeholder="Bank Name" />
+                        <label asp-for="Input.BankName" class="ms-2 text-muted">Bank Name</label>
+                        <span asp-validation-for="Input.BankName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.AccountNumber" class="form-control" placeholder="Account Number" />
+                        <label asp-for="Input.AccountNumber" class="ms-2 text-muted">Account Number</label>
+                        <span asp-validation-for="Input.AccountNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.IBAN" class="form-control" placeholder="IBAN" />
+                        <label asp-for="Input.IBAN" class="ms-2 text-muted">IBAN</label>
+                        <span asp-validation-for="Input.IBAN" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.SwiftCode" class="form-control" placeholder="Swift Code" />
+                        <label asp-for="Input.SwiftCode" class="ms-2 text-muted">Swift Code</label>
+                        <span asp-validation-for="Input.SwiftCode" class="text-danger"></span>
+                    </div>
                     <div class="col-12">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                         <br /> <br /> <br /> <br />

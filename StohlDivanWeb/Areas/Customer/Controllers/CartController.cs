@@ -56,7 +56,15 @@ namespace StohlDivanWeb.Areas.Customer.Controllers
             ShoppingCartVM = new()
             {
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product"),
-                OrderHeader = new()
+                OrderHeader = new(),
+                BankAccounts = _unitOfWork.BankAccount.GetAll(b => b.UserId == userId).Select(b => new BankAccountVM
+                {
+                    Id = b.Id,
+                    BankName = b.BankName,
+                    AccountNumber = b.AccountNumber,
+                    IBAN = b.IBAN,
+                    SwiftCode = b.SwiftCode
+                })
             };
 
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);

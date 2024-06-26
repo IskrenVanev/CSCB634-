@@ -10,6 +10,8 @@ namespace StohlDivan.Models.ViewModels
     {
         public IEnumerable<ShoppingCart> ShoppingCartList { get; set; }
         public OrderHeader OrderHeader { get; set; }
+        public IEnumerable<BankAccountVM> BankAccounts { get; set; }
+        public int SelectedBankAccountId { get; set; }
 
     }
 }

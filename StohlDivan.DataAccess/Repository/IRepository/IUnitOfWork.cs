@@ -18,6 +18,7 @@ namespace StohlDivan.DataAccess.Repository.IRepository
         IProductImageRepository ProductImage { get; }
         IReviewRepository Review { get; }
         ISupplierRepository Supplier { get; }
+        IBankAccountRepository BankAccount { get; }
         void Save();
     }
 }

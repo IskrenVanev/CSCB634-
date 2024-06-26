@@ -1,0 +1,58 @@
+﻿@model List<StohlDivan.Models.BankAccount>
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Bank Account List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <table id="bankAccountTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Bank Name</th>
+                    <th>Account Number</th>
+                    <th>IBAN</th>
+                    <th>Swift Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bankAccount in Model.OrderBy(u => u.BankName))
+                {
+                    <tr>
+                        <td>@bankAccount.User.UserName</td>
+                        <td>@bankAccount.BankName</td>
+                        <td>@bankAccount.AccountNumber</td>
+                        <td>@bankAccount.IBAN</td>
+                        <td>@bankAccount.SwiftCode</td>
+                        <td>
+                            <form asp-action="DeleteConfirmed" asp-controller="BankAccount" asp-route-id="@bankAccount.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this bank account?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#bankAccountTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+}

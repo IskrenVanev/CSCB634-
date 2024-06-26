@@ -70,6 +70,9 @@
                                 <li class="nav-item">
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Suppliers" asp-action="Index">Supplier</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="BankAccount" asp-action="Index">Bank Account</a>
+                                </li>
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="ChangeName" asp-action="Index">Change Website Name</a>
                                     </li>
@@ -83,16 +86,27 @@
 
                             </ul>
                         </li>
-                    } 
-                        
-                       
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                            @await Component.InvokeAsync("ShoppingCart")
-                        </a>
-                    </li>
-                        
-
+                    }
+                        @* Customer specific navigation items *@
+                        @if (User.IsInRole(SD.Role_Customer))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Edit Profile
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Customer" asp-controller="CustomerBankAccount" asp-action="Index">Bank Accounts</a>
+                                    </li>
+                                </ul>
+                            </li>
+                           
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    @await Component.InvokeAsync("ShoppingCart")
+                                </a>
+                            </li>
+                        }
                         
                 </ul>
                 <partial name ="_LoginPartial"/>
