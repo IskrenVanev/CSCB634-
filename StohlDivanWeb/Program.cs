@@ -9,7 +9,6 @@ using StohlDivan.DataAccess.Data;
 using StohlDivan.DataAccess.Repository.IRepository;
 using StohlDivan.DataAccess.Repository;
 using StohlDivan.Utility;
-
 internal class Program
 {
 	private static void Main(string[] args)
@@ -60,7 +59,6 @@ internal class Program
 
         builder.Services.AddScoped<IDbInitializer, DbInitializer>();
         builder.Services.AddRazorPages();
-
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 		builder.Services.AddScoped<IEmailSender, EmailSender>();
         builder.Services.AddHealthChecks();

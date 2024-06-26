@@ -22,7 +22,7 @@ namespace StohlDivan.DataAccess.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-
+        public DbSet<BankAccount> BankAccount { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -32,7 +32,6 @@ namespace StohlDivan.DataAccess.Data
             //    .WithMany(sc => sc.Reviews)
             //    .HasForeignKey(r => r.ShoppingCartId)
             //    .OnDelete(DeleteBehavior.NoAction);
-
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Sofa", DisplayOrder = 1 },
 			    new Category { Id = 2, Name = "Chair", DisplayOrder = 2 },
@@ -133,6 +132,12 @@ namespace StohlDivan.DataAccess.Data
                     Price100 = 20,
                     CategoryId = 3
                 });
+
+            modelBuilder.Entity<BankAccount>()
+            .HasOne(b => b.User)
+            .WithMany(u => u.BankAccounts)
+            .HasForeignKey(b => b.UserId)
+            .IsRequired();
         }
 	}
 }

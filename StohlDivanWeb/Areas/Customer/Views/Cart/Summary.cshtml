@@ -103,6 +103,25 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="container">
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <label for="SelectedBankAccountId" class="form-label">Select Bank Account</label>
+                                <select asp-for="SelectedBankAccountId" class="form-select" required>
+                                    <option value="">-- Select a Bank Account --</option>
+                                    @foreach (var account in Model.BankAccounts)
+                                    {
+                                        <option value="@account.Id">@account.BankName - @account.AccountNumber</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SelectedBankAccountId" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 my-2">
+                                <a asp-controller="CustomerBankAccount" asp-action="Create" class="btn btn-primary">
+                                    Add New Bank Account
+                                </a>
+                            </div>
+                        </div>
                 </div>
             </div>
             <div class="card-footer">
